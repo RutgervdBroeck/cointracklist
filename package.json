@@ -1,0 +1,19 @@
+{
+  "name": "crypto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Rutger van den Broeck",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cross-env": "^5.1.6",
+    "laravel-mix": "^2.1.11",
+    "vue": "^2.5.16",
+    "vuex": "^3.0.1"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
+    "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  }
+}
