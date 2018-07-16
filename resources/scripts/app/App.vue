@@ -12,24 +12,29 @@
     export default {
         name: 'app',
 
-        // Components.
+        /**
+        * Components.
+        *
+        **/
         components: {
             'coin-list': CoinListComponent,
             'coin-input-component': CoinInputComponent
         },
 
-        // App mounted.
+        /**
+        * App mounted.
+        *
+        **/
         mounted() {
             this.$store.dispatch('fetchCMCListings');
-
-            // setTimeout(() => {
-            //     console.log(this.$store.state.ownListings);
-            // }, 1000);
         }
     }
 </script>
 
 <style lang="scss">
-    #id {
+    #app {
+        display: block;
+        max-width: 900px;
+        margin: 0 auto;
     }
 </style>
