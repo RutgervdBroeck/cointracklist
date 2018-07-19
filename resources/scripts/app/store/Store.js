@@ -61,11 +61,26 @@ export default new Vuex.Store({
         * Fetch own coin listing with given id.
         *
         **/
-        fetchOwnListing(store, data) {
-            fetchOwnListings(data.id, store.state.currency, (data) => {
+        fetchOwnListing(store, id) {
+            fetchOwnListing(id, store.state.currency, (data) => {
                 store.commit('setOwnListings', data);
                 store.commit('setTotalOwnListings');
             });
+        },
+
+        /**
+        * Add listing to array and fetch newly added item.
+        *
+        **/
+        addAndFetchListing(store, data) {
+            store.commit('addOwnListing', data);
+
+            // ID of newly added item in store.
+            const id = store.state.ownListings.filter((item) => {
+                return (item.ticker === data.ticker);
+            })[0].id;
+
+            store.dispatch('fetchOwnListing', id);
         }
     },
 
@@ -110,9 +125,9 @@ export default new Vuex.Store({
             state.ownListings = [
                 {
                     id: state.cmcListings.filter((item) => {
-                        return(item.symbol === data.name);
+                        return(item.symbol === data.ticker);
                     })[0].id,
-                    ticker: data.name,
+                    ticker: data.ticker,
                     amount: data.amount,
                     priceOfAmount: 0
                 },

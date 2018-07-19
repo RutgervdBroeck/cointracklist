@@ -1,6 +1,6 @@
 <template>
     <div class="coin-input-component">
-        <input class="input-coin-name" type="text" v-model="coinName" @keypress="onKeyPress">
+        <input class="input-coin-ticker" type="text" v-model="coinTicker" @keypress="onKeyPress">
         <input class="input-coin-amount" type="number" v-model="coinAmount" @keypress="onKeyPress">
     </div>
 </template>
@@ -13,7 +13,7 @@
         **/
         data() {
             return {
-                coinName: '',
+                coinTicker: '',
                 coinAmount: ''
             }
         },
@@ -39,8 +39,8 @@
             **/
             validateValues() {
                 if (this.coinName !== '' && this.coinAmount !== '') {
-                    this.$store.commit('addOwnListing', {
-                        name: this.coinName,
+                    this.$store.dispatch('addAndFetchListing', {
+                        ticker: this.coinTicker,
                         amount: this.coinAmount,
                     });
                 }
@@ -62,7 +62,7 @@
         background: grey;
     }
 
-    .input-coin-name, .input-coin-amount {
+    .input-coin-ticker, .input-coin-amount {
         outline: 1px solid white;
         font-size: 16px;
         color: white;
