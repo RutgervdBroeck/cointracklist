@@ -93,7 +93,6 @@ export default new Vuex.Store({
         * Set the CMC listings.
         *
         **/
-
         setCMCListings(state, data) {
             state.cmcListings = data;
         },
