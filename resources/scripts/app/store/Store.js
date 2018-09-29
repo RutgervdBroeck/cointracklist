@@ -1,13 +1,32 @@
 import Vuex from 'vuex';
 import axios from 'axios';
-import {fetchCMCListings, fetchOwnListing} from '../services/CoinService.js';
+import { fetchCMCListings, fetchOwnListing } from '../services/CoinService.js';
+import { coinColorTones } from '../utils/colorUtil';
+
+/**
+* Update the local storage with the current state.
+*
+**/
+const updateLocalStorage = (state) => {
+    if (localStorage) {
+        localStorage.setItem('cointracklist.state', JSON.stringify(state));
+    } else {
+        alert('Local storage is not found! Your coin listings and preferences will not be stored.');
+    }
+};
+
+/**
+* Get stored state from localStorage.
+*
+**/
+const localStorageState = localStorage && localStorage.getItem('cointracklist.state');
 
 export default new Vuex.Store({
     /**
     * Default store state.
     *
     **/
-    state: {
+    state: (localStorageState) ? JSON.parse(localStorageState) : {
         currency: 'EUR',
         currencyOptions: ['EUR', 'USD'],
         cmcListings: [],
@@ -15,14 +34,9 @@ export default new Vuex.Store({
             {
                 id: 1,
                 ticker: 'BTC',
-                amount: 0.47,
+                amount: 1,
                 priceOfAmount: 0,
-            },
-            {
-                id: 2001,
-                ticker: 'COLX',
-                amount: 100000,
-                priceOfAmount: 0,
+                color: '#f79926',
             }
         ],
         totalOwnListings: 0
@@ -95,6 +109,8 @@ export default new Vuex.Store({
         **/
         setCMCListings(state, data) {
             state.cmcListings = data;
+
+            updateLocalStorage(state);
         },
 
         /**
@@ -109,11 +125,14 @@ export default new Vuex.Store({
                     return {
                         ...item,
                         priceOfAmount: item.amount * quote.price,
+                        color: coinColorTones[item.id] || '#7d7f88',
                     }
                 } else {
                     return item;
                 }
             });
+
+            updateLocalStorage(state);
         },
 
         /**
@@ -121,17 +140,22 @@ export default new Vuex.Store({
         *
         **/
         addOwnListing(state, data) {
+            const id = state.cmcListings.filter((item) => {
+                return(item.symbol === data.ticker);
+            })[0].id;
+
             state.ownListings = [
                 {
-                    id: state.cmcListings.filter((item) => {
-                        return(item.symbol === data.ticker);
-                    })[0].id,
+                    id,
                     ticker: data.ticker,
                     amount: data.amount,
-                    priceOfAmount: 0
+                    priceOfAmount: 0,
+                    color: coinColorTones[id] || '#7d7f88',
                 },
                 ...state.ownListings,
             ]
+
+            updateLocalStorage(state);
         },
 
         /**
@@ -146,6 +170,8 @@ export default new Vuex.Store({
             });
 
             state.totalOwnListings = total;
+
+            updateLocalStorage(state);
         }
     }
 });

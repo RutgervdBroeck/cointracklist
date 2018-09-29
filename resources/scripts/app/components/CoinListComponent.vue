@@ -4,6 +4,7 @@
             v-for="listing in ownListings"
             :ticker="listing.ticker"
             :priceOfAmount="listing.priceOfAmount"
+            :color="listing.color"
             :key="listing.id"
         />
     </ul>
@@ -41,6 +42,6 @@
     }
 
     .coin-list {
-        
+
     }
 </style>

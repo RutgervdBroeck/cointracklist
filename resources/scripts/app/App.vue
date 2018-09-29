@@ -1,13 +1,15 @@
 <template>
     <main id="app">
-        <coin-input-component></coin-input-component>
-        <coin-list></coin-list>
+        <coin-input-component/>
+        <coin-total-component/>
+        <coin-list/>
     </main>
 </template>
 
 <script>
     import CoinListComponent from './components/CoinListComponent';
     import CoinInputComponent from './components/CoinInputComponent';
+    import CoinTotalComponent from './components/CoinTotalComponent';
 
     export default {
         name: 'app',
@@ -18,7 +20,8 @@
         **/
         components: {
             'coin-list': CoinListComponent,
-            'coin-input-component': CoinInputComponent
+            'coin-input-component': CoinInputComponent,
+            'coin-total-component': CoinTotalComponent,
         },
 
         /**
@@ -32,9 +35,18 @@
 </script>
 
 <style lang="scss">
-    #app {
-        display: block;
-        max-width: 900px;
-        margin: 0 auto;
+    * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+    }
+
+    body {
+        font-size: 20px;
+        background: #110520;
+        color: #fff;
+        font-family: 'Oswald', sans-serif;
+        line-height: 1em;
     }
 </style>

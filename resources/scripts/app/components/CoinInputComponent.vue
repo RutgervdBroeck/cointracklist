@@ -52,12 +52,12 @@
 <style lang="scss">
     input {
         background: transparent;
-        border: 0;
-        margin: 0;
-        padding: 0;
     }
 
     .coin-input-component {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
         height: 50px;
         background: grey;
     }
