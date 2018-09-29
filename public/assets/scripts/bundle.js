@@ -13696,7 +13696,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n#app {\n  display: block;\n  max-width: 900px;\n  margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\n* {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  outline: 0;\n}\nbody {\n  font-size: 20px;\n  background: #110520;\n  color: #fff;\n  font-family: 'Oswald', sans-serif;\n  line-height: 1em;\n}\n", ""]);
 
 // exports
 
@@ -13744,6 +13744,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CoinListComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_CoinListComponent__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CoinInputComponent__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CoinInputComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CoinInputComponent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CoinTotalComponent__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CoinTotalComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CoinTotalComponent__);
 //
 //
 //
@@ -13751,6 +13753,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -13764,7 +13768,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     **/
     components: {
         'coin-list': __WEBPACK_IMPORTED_MODULE_0__components_CoinListComponent___default.a,
-        'coin-input-component': __WEBPACK_IMPORTED_MODULE_1__components_CoinInputComponent___default.a
+        'coin-input-component': __WEBPACK_IMPORTED_MODULE_1__components_CoinInputComponent___default.a,
+        'coin-total-component': __WEBPACK_IMPORTED_MODULE_2__components_CoinTotalComponent___default.a
     },
 
     /**
@@ -13886,6 +13891,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -13995,7 +14001,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.coin-list-item {\n  list-style: none;\n  background: #efecec;\n  height: 50px;\n}\n.coin-list-item span {\n    background: transparent;\n    border: 0;\n    margin: 0;\n    padding: 0;\n    font-size: 16px;\n    color: black;\n}\n", ""]);
+exports.push([module.i, "\n.coin-list-item {\n  list-style: none;\n}\n", ""]);
 
 // exports
 
@@ -14006,6 +14012,7 @@ exports.push([module.i, "\n.coin-list-item {\n  list-style: none;\n  background:
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_currencyUtil__ = __webpack_require__(66);
 //
 //
 //
@@ -14013,6 +14020,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     /**
@@ -14027,6 +14036,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         priceOfAmount: {
             type: Number,
             default: ''
+        },
+        color: {
+            type: String,
+            default: ''
+        }
+    },
+
+    /**
+    * Computed prop.
+    *
+    **/
+    computed: {
+        backgroundColor: function backgroundColor() {
+            return {
+                backgroundColor: this.$props.color
+            };
         }
     },
 
@@ -14034,7 +14059,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     * Component methods.
     *
     **/
-    methods: {}
+    methods: {
+        formatToCurrency: function formatToCurrency(value) {
+            return '\u20AC' + Object(__WEBPACK_IMPORTED_MODULE_0__utils_currencyUtil__["a" /* formatToCurrency */])(value);
+        }
+    }
 });
 
 /***/ }),
@@ -14045,17 +14074,23 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("li", { staticClass: "coin-list-item" }, [
-    _c("span", {
-      staticClass: "coin-ticker-name",
-      domProps: { textContent: _vm._s(_vm.ticker) }
-    }),
-    _vm._v(" "),
-    _c("span", {
-      staticClass: "coin-total-price-amount",
-      domProps: { textContent: _vm._s(_vm.priceOfAmount) }
-    })
-  ])
+  return _c(
+    "li",
+    { staticClass: "coin-list-item", style: _vm.backgroundColor },
+    [
+      _c("span", {
+        staticClass: "coin-ticker-name",
+        domProps: { textContent: _vm._s(_vm.ticker) }
+      }),
+      _vm._v(" "),
+      _c("span", {
+        staticClass: "coin-total-price-amount",
+        domProps: {
+          textContent: _vm._s(_vm.formatToCurrency(_vm.priceOfAmount))
+        }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -14081,7 +14116,11 @@ var render = function() {
     _vm._l(_vm.ownListings, function(listing) {
       return _c("coin-list-item", {
         key: listing.id,
-        attrs: { ticker: listing.ticker, priceOfAmount: listing.priceOfAmount }
+        attrs: {
+          ticker: listing.ticker,
+          priceOfAmount: listing.priceOfAmount,
+          color: listing.color
+        }
       })
     })
   )
@@ -14182,7 +14221,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\ninput {\n  background: transparent;\n  border: 0;\n  margin: 0;\n  padding: 0;\n}\n.coin-input-component {\n  height: 50px;\n  background: grey;\n}\n.input-coin-ticker, .input-coin-amount {\n  outline: 1px solid white;\n  font-size: 16px;\n  color: white;\n}\n", ""]);
+exports.push([module.i, "\ninput {\n  background: transparent;\n}\n.coin-input-component {\n  position: absolute;\n  bottom: 20px;\n  right: 20px;\n  height: 50px;\n  background: grey;\n}\n.input-coin-ticker, .input-coin-amount {\n  outline: 1px solid white;\n  font-size: 16px;\n  color: white;\n}\n", ""]);
 
 // exports
 
@@ -14322,7 +14361,13 @@ var render = function() {
   return _c(
     "main",
     { attrs: { id: "app" } },
-    [_c("coin-input-component"), _vm._v(" "), _c("coin-list")],
+    [
+      _c("coin-input-component"),
+      _vm._v(" "),
+      _c("coin-total-component"),
+      _vm._v(" "),
+      _c("coin-list")
+    ],
     1
   )
 }
@@ -14345,6 +14390,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_CoinService_js__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_colorUtil__ = __webpack_require__(67);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -14353,25 +14399,40 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
+
+/**
+* Update the local storage with the current state.
+*
+**/
+var updateLocalStorage = function updateLocalStorage(state) {
+    if (localStorage) {
+        localStorage.setItem('cointracklist.state', JSON.stringify(state));
+    } else {
+        alert('Local storage is not found! Your coin listings and preferences will not be stored.');
+    }
+};
+
+/**
+* Get stored state from localStorage.
+*
+**/
+var localStorageState = localStorage && localStorage.getItem('cointracklist.state');
+
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
     /**
     * Default store state.
     *
     **/
-    state: {
+    state: localStorageState ? JSON.parse(localStorageState) : {
         currency: 'EUR',
         currencyOptions: ['EUR', 'USD'],
         cmcListings: [],
         ownListings: [{
             id: 1,
             ticker: 'BTC',
-            amount: 0.47,
-            priceOfAmount: 0
-        }, {
-            id: 2001,
-            ticker: 'COLX',
-            amount: 100000,
-            priceOfAmount: 0
+            amount: 1,
+            priceOfAmount: 0,
+            color: '#f79926'
         }],
         totalOwnListings: 0
     },
@@ -14444,9 +14505,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         * Set the CMC listings.
         *
         **/
-
         setCMCListings: function setCMCListings(state, data) {
             state.cmcListings = data;
+
+            updateLocalStorage(state);
         },
 
 
@@ -14460,12 +14522,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             state.ownListings = state.ownListings.map(function (item) {
                 if (item.id === data.id) {
                     return _extends({}, item, {
-                        priceOfAmount: item.amount * quote.price
+                        priceOfAmount: item.amount * quote.price,
+                        color: __WEBPACK_IMPORTED_MODULE_3__utils_colorUtil__["a" /* coinColorTones */][item.id] || '#7d7f88'
                     });
                 } else {
                     return item;
                 }
             });
+
+            updateLocalStorage(state);
         },
 
 
@@ -14474,14 +14539,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         *
         **/
         addOwnListing: function addOwnListing(state, data) {
+            var id = state.cmcListings.filter(function (item) {
+                return item.symbol === data.ticker;
+            })[0].id;
+
             state.ownListings = [{
-                id: state.cmcListings.filter(function (item) {
-                    return item.symbol === data.ticker;
-                })[0].id,
+                id: id,
                 ticker: data.ticker,
                 amount: data.amount,
-                priceOfAmount: 0
+                priceOfAmount: 0,
+                color: __WEBPACK_IMPORTED_MODULE_3__utils_colorUtil__["a" /* coinColorTones */][id] || '#7d7f88'
             }].concat(_toConsumableArray(state.ownListings));
+
+            updateLocalStorage(state);
         },
 
 
@@ -14497,6 +14567,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             });
 
             state.totalOwnListings = total;
+
+            updateLocalStorage(state);
         }
     }
 }));
@@ -15421,6 +15493,183 @@ var fetchOwnListing = function fetchOwnListing(id, currency, callback) {
     }).catch(function () {
         console.warn('CoinService - fetchOwnListings: Error');
     });
+};
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(62)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(64)
+/* template */
+var __vue_template__ = __webpack_require__(65)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/scripts/app/components/CoinTotalComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-07e506f4", Component.options)
+  } else {
+    hotAPI.reload("data-v-07e506f4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(63);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("7ea48aa4", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-07e506f4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CoinTotalComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-07e506f4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CoinTotalComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.coin-total-label {\n  font-size: 2em;\n  line-height: 2em;\n  font-weight: bold;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_currencyUtil__ = __webpack_require__(66);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    /**
+    * Component methods.
+    *
+    **/
+    methods: {
+        formatToCurrency: function formatToCurrency(value) {
+            return '\u20AC' + Object(__WEBPACK_IMPORTED_MODULE_0__utils_currencyUtil__["a" /* formatToCurrency */])(value);
+        }
+    }
+});
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "coin-total" }, [
+    _c("span", {
+      staticClass: "coin-total-label",
+      domProps: {
+        textContent: _vm._s(
+          _vm.formatToCurrency(this.$store.state.totalOwnListings)
+        )
+      }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-07e506f4", module.exports)
+  }
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return formatToCurrency; });
+var formatToCurrency = function formatToCurrency(value) {
+    return parseFloat(value).toFixed(2);
+};
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return coinColorTones; });
+var coinColorTones = {
+    1: '#f79926',
+    2: '#dfdfdf',
+    52: '#0a93eb',
+    109: '#032552',
+    873: '#2cbaad',
+    1027: '#4c4c4c',
+    1376: '#92cd1a',
+    2132: '#2fd5de',
+    2187: '#f79926'
 };
 
 /***/ })
