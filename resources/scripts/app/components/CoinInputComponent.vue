@@ -60,6 +60,7 @@
         right: 20px;
         height: 50px;
         background: grey;
+        z-index: 999;
     }
 
     .input-coin-ticker, .input-coin-amount {

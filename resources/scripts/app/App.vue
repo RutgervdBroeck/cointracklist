@@ -42,6 +42,10 @@
         outline: 0;
     }
 
+    li {
+        list-style: none;
+    }
+
     body {
         font-size: 20px;
         background: #110520;

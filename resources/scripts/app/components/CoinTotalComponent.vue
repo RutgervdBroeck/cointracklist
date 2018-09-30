@@ -23,6 +23,10 @@
 
 <style lang="scss">
     .coin-total {
+        display: flex;
+        padding-left: 20px;
+        height: 80px;
+        align-items: center;
     }
 
     .coin-total-label {

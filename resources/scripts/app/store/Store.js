@@ -3,6 +3,8 @@ import axios from 'axios';
 import { fetchCMCListings, fetchOwnListing } from '../services/CoinService.js';
 import { coinColorTones } from '../utils/colorUtil';
 
+const IMG_BASE_URL = 'https://s2.coinmarketcap.com/static/img/coins/128x128';
+
 /**
 * Update the local storage with the current state.
 *
@@ -37,6 +39,7 @@ export default new Vuex.Store({
                 amount: 1,
                 priceOfAmount: 0,
                 color: '#f79926',
+                img: 'https://s2.coinmarketcap.com/static/img/coins/128x128/1.png',
             }
         ],
         totalOwnListings: 0
@@ -126,6 +129,7 @@ export default new Vuex.Store({
                         ...item,
                         priceOfAmount: item.amount * quote.price,
                         color: coinColorTones[item.id] || '#7d7f88',
+                        img: `${IMG_BASE_URL}/${item.id}.png`,
                     }
                 } else {
                     return item;
@@ -151,6 +155,7 @@ export default new Vuex.Store({
                     amount: data.amount,
                     priceOfAmount: 0,
                     color: coinColorTones[id] || '#7d7f88',
+                    img: `${IMG_BASE_URL}/${id}.png`,
                 },
                 ...state.ownListings,
             ]

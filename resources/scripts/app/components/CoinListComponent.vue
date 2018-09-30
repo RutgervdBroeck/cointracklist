@@ -5,6 +5,7 @@
             :ticker="listing.ticker"
             :priceOfAmount="listing.priceOfAmount"
             :color="listing.color"
+            :img="listing.img"
             :key="listing.id"
         />
     </ul>
@@ -20,7 +21,9 @@
         **/
         computed: {
             ownListings() {
-                return this.$store.state.ownListings;
+                return this.$store.state.ownListings.sort((a, b) => {
+                    return b.priceOfAmount - a.priceOfAmount;
+                });
             }
         },
 
