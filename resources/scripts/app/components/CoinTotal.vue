@@ -1,7 +1,7 @@
 <template>
-    <div class="coin-total">
+    <header class="coin-total">
         <span class="coin-total-label" v-text="formatToCurrency(this.$store.state.totalOwnListings)"/>
-    </div>
+    </header>
 </template>
 
 <script>
@@ -15,7 +15,7 @@
         **/
         methods: {
             formatToCurrency(value) {
-                return `€${formatToCurrency(value)}`;
+                return `${formatToCurrency(value)}`;
             }
         }
     }

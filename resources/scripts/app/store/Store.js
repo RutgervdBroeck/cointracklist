@@ -36,8 +36,9 @@ export default new Vuex.Store({
             {
                 id: 1,
                 ticker: 'BTC',
-                amount: 1,
+                amount: 0.43,
                 priceOfAmount: 0,
+                pricePercentageChange: 0,
                 color: '#f79926',
                 img: 'https://s2.coinmarketcap.com/static/img/coins/128x128/1.png',
             }
@@ -68,7 +69,7 @@ export default new Vuex.Store({
         fetchOwnListings(store) {
             store.state.ownListings.forEach((item) => {
                 fetchOwnListing(item.id, store.state.currency, (data) => {
-                    store.commit('setOwnListings', data);
+                    store.commit('setOwnListing', data);
                     store.commit('setTotalOwnListings');
                 });
             });
@@ -80,7 +81,7 @@ export default new Vuex.Store({
         **/
         fetchOwnListing(store, id) {
             fetchOwnListing(id, store.state.currency, (data) => {
-                store.commit('setOwnListings', data);
+                store.commit('setOwnListing', data);
                 store.commit('setTotalOwnListings');
             });
         },
@@ -90,14 +91,21 @@ export default new Vuex.Store({
         *
         **/
         addAndFetchListing(store, data) {
-            store.commit('addOwnListing', data);
+            const item = store.state.cmcListings.filter((item) => {
+                return(item.symbol === data.ticker);
+            })[0];
 
-            // ID of newly added item in store.
-            const id = store.state.ownListings.filter((item) => {
-                return (item.ticker === data.ticker);
-            })[0].id;
+            const id = (item) ? item.id : null;
 
-            store.dispatch('fetchOwnListing', id);
+            if (id) {
+                store.commit('addOwnListing', {
+                    id,
+                    ...data
+                });
+                store.dispatch('fetchOwnListing', id);
+            } else {
+                console.warn('This coin id is not found!');
+            }
         }
     },
 
@@ -120,7 +128,7 @@ export default new Vuex.Store({
         * Set own coin listings.
         *
         **/
-        setOwnListings(state, data) {
+        setOwnListing(state, data) {
             const quote = data.quotes[state.currency];
 
             state.ownListings = state.ownListings.map((item) => {
@@ -144,21 +152,39 @@ export default new Vuex.Store({
         *
         **/
         addOwnListing(state, data) {
-            const id = state.cmcListings.filter((item) => {
-                return(item.symbol === data.ticker);
-            })[0].id;
 
-            state.ownListings = [
-                {
-                    id,
+            // Check for duplicate item.
+            const items = state.ownListings.filter((item) => {
+                return (item.id === data.id);
+            });
+
+            // When the id is not found in existing listings.
+            if (items.length === 0) {
+
+                state.ownListings.push({
+                    id: data.id,
                     ticker: data.ticker,
                     amount: data.amount,
                     priceOfAmount: 0,
-                    color: coinColorTones[id] || '#7d7f88',
-                    img: `${IMG_BASE_URL}/${id}.png`,
-                },
-                ...state.ownListings,
-            ]
+                    pricePercentageChange: 0,
+                    color: coinColorTones[data.id] || '#7d7f88',
+                    img: `${IMG_BASE_URL}/${data.id}.png`,
+                });
+
+            } else {
+
+                state.ownListings = state.ownListings.map((item) => {
+                    if (item.id === data.id) {
+                        return {
+                            ...item,
+                            amount: item.amount + data.amount,
+                        }
+                    } else {
+                        return item;
+                    }
+                });
+
+            }
 
             updateLocalStorage(state);
         },

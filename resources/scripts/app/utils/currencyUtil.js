@@ -1,3 +1,3 @@
 export const formatToCurrency = (value) => {
-    return parseFloat(value).toFixed(2);
+    return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value);
 };

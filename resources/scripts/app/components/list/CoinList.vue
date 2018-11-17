@@ -1,8 +1,10 @@
 <template>
     <ul class="coin-list">
         <coin-list-item
-            v-for="listing in ownListings"
+            v-for="(listing, index) in ownListings"
+            :index="index"
             :ticker="listing.ticker"
+            :amount="listing.amount"
             :priceOfAmount="listing.priceOfAmount"
             :color="listing.color"
             :img="listing.img"
@@ -12,7 +14,7 @@
 </template>
 
 <script>
-    import CoinListItemComponent from './CoinListItemComponent';
+    import CoinListItem from './CoinListItem';
 
     export default {
         /**
@@ -32,7 +34,7 @@
         *
         **/
         components: {
-            'coin-list-item': CoinListItemComponent,
+            'coin-list-item': CoinListItem,
         }
     }
 </script>

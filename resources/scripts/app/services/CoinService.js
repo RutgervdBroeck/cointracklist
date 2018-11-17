@@ -23,7 +23,7 @@ export const fetchCMCListings = (callback) => {
 export const fetchOwnListing = (id, currency, callback) => {
     axios.get(TICKER_URL.replace('{id}', id).replace('{currency}', currency)).then((response) => {
         callback(response.data.data);
-        console.log('CoinService - fetchOwnListings: Success');
+        console.log('CoinService - fetchOwnListing: Success');
     }).catch(() => {
         console.warn('CoinService - fetchOwnListings: Error');
     });
